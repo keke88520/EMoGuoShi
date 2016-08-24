@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/mainBackgroundColor"
+    tools:context="com.whl.emoguoshi.view.activity.AboutUsActivity">
+
+    <ImageView
+android:src="@mipmap/logo"
+        android:layout_marginTop="59dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="65dp"
+        android:textColor="#FFBDC0C4"
+        android:textSize="16sp"
+        android:text="wanghl
+email：keke88520@163.com
+QQ：309863537
+
+panyong
+email：xxx@163.com
+QQ：xxx
+
+如果您觉得app还不错，可以为我们打赏，我们努力开出更好的app
+"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

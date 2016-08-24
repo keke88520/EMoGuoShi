@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">EMoGuoShi</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ziran">自然系</string>
+    <string name="dongwu">动物系</string>
+    <string name="chaoren">超人系</string>
+</resources>

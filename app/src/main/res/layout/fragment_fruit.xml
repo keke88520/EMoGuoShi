@@ -1,0 +1,42 @@
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.whl.emoguoshi.viewmodel.FruitViewModel" />
+    </data>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mainBackgroundColor"
+        tools:context="com.whl.emoguoshi.view.fragment.FruitFragment">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/mainText"
+                android:text="@string/ziran"
+                android:onClick="@{viewModel.onZiRanXiClick}"
+                />
+
+            <TextView style="@style/mainText"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/dongwu"
+                android:onClick="@{viewModel.onDongWuXiClick}"
+                />
+
+            <TextView style="@style/mainText"
+                android:text="@string/chaoren"
+                android:onClick="@{viewModel.onChaoRenXiClick}"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

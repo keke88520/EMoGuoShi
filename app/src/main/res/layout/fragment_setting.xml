@@ -1,0 +1,35 @@
+<layout>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.whl.emoguoshi.viewmodel.SettingViewModel" />
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mainBackgroundColor"
+        tools:context="com.whl.emoguoshi.view.fragment.SettingFragment">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView style="@style/mainText"
+                android:text="评价"
+                />
+
+            <TextView style="@style/mainText"
+                android:layout_marginTop="32dp"
+                android:text="关于我们"
+                android:onClick="@{viewModel.onAboutUs}"
+                />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>
