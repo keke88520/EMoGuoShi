@@ -1,4 +1,4 @@
-<layout>
+<layout xmlns:ads="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -14,6 +14,14 @@
         android:background="@color/mainBackgroundColor"
         tools:context="com.whl.emoguoshi.view.fragment.FruitFragment">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.gms.ads.AdView>
         <LinearLayout
             android:layout_gravity="center"
             android:orientation="vertical"

@@ -15,8 +15,11 @@ import com.whl.emoguoshi.R;
 import com.whl.emoguoshi.adapter.FruitListAdapter;
 import com.whl.emoguoshi.adapter.WallPaperListAdapter;
 import com.whl.emoguoshi.databinding.FragmentWallPaperBinding;
+import com.whl.emoguoshi.domain.WallPaperBean;
 import com.whl.emoguoshi.recycler.MyItemDecoration;
 import com.whl.emoguoshi.viewmodel.WallPaperViewModel;
+
+import java.util.List;
 
 import space.sye.z.library.RefreshRecyclerView;
 import space.sye.z.library.listener.OnBothRefreshListener;
@@ -28,7 +31,7 @@ import space.sye.z.library.manager.RecyclerViewManager;
  * Use the {@link WallPaperFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WallPaperFragment extends Fragment {
+public class WallPaperFragment extends Fragment implements WallPaperViewModel.WallPaperViewModelListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,6 +42,7 @@ public class WallPaperFragment extends Fragment {
     private String mParam2;
     private ViewGroup rootView;
     private WallPaperListAdapter adapter;
+    private WallPaperViewModel viewModel;
 
 
     public WallPaperFragment() {
@@ -81,9 +85,11 @@ public class WallPaperFragment extends Fragment {
         if (rootView == null) {
             rootView = (ViewGroup) inflater.inflate(R.layout.fragment_wall_paper, container, false);
             FragmentWallPaperBinding binding = DataBindingUtil.bind(rootView);
-            WallPaperViewModel viewModel = new WallPaperViewModel();
+            viewModel = new WallPaperViewModel(getContext(), this);
             binding.setViewModel(viewModel);
             setUpRecyclerView(binding.rvPaper);
+
+            viewModel.loadPaper();
         }
 
 
@@ -155,5 +161,19 @@ public class WallPaperFragment extends Fragment {
                 })
                 .into(recyclerView, getContext());
 
+    }
+
+    @Override
+    public void onDestroy() {
+        if (viewModel != null) {
+            viewModel.onDestroy();
+            viewModel = null;
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPapeLoadFinish(List<WallPaperBean> wallPaperBeen) {
+        adapter.setData(wallPaperBeen);
     }
 }

@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
 import com.whl.emoguoshi.R;
 import com.whl.emoguoshi.databinding.ItemAdBinding;
 import com.whl.emoguoshi.databinding.ItemFruitBinding;
 import com.whl.emoguoshi.databinding.ItemWallPaperBinding;
 import com.whl.emoguoshi.db.DevilFruit;
+import com.whl.emoguoshi.domain.WallPaperBean;
 import com.whl.emoguoshi.viewmodel.AdItemViewModel;
 import com.whl.emoguoshi.viewmodel.FruitItemViewModel;
 import com.whl.emoguoshi.viewmodel.WallPaperItemViewModel;
@@ -26,7 +28,7 @@ public class WallPaperListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static final int TYPE_AD = 0;
     public static final int TYPE_ITEM = 1;
 
-    private List<DevilFruit> data;
+    private List<WallPaperBean> data;
 
     private Context context;
 
@@ -64,8 +66,13 @@ public class WallPaperListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 //       DevilFruit bean = data.get(position);
 //            holder.bindItem(null);
+        WallPaperBean bean = data.get(position);
         if (holder instanceof WallPaperViewHolder) {
-
+            WallPaperViewHolder wallPaperViewHolder = (WallPaperViewHolder) holder;
+            wallPaperViewHolder.bindItem(bean);
+        } else {
+            AdViewHolder adViewHolder = (AdViewHolder) holder;
+            adViewHolder.bindItem(bean);
         }
 
     }
@@ -74,24 +81,28 @@ public class WallPaperListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
 
 //        return count+1;
-//        return data == null ? 0 : data.size();
-        return 20;
+        return data == null ? 0 : data.size();
+//        return 20;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position % 7 == 0) {
-            return TYPE_AD;
+//        if (position % 7 == 0) {
+//            return TYPE_AD;
+//        }
+//        return TYPE_ITEM;
+        if (data == null) {
+            return TYPE_ITEM;
         }
-        return TYPE_ITEM;
+        return data.get(position).getType();
     }
 
-    public void setData(List<DevilFruit> data) {
+    public void setData(List<WallPaperBean> data) {
         this.data = data;
         notifyDataSetChanged();
     }
 
-    public void setLoadMoreData(List<DevilFruit> data) {
+    public void setLoadMoreData(List<WallPaperBean> data) {
         this.data.addAll(data);
         notifyDataSetChanged();
     }
@@ -104,12 +115,12 @@ public class WallPaperListAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.binding = binding;
         }
 
-        public void bindItem(DevilFruit devilFruit) {
+        public void bindItem(WallPaperBean devilFruit) {
             if (binding.getViewModel() == null) {
-                binding.setViewModel(new WallPaperItemViewModel());
+                binding.setViewModel(new WallPaperItemViewModel(context));
             }
 
-//            binding.getViewModel().setFruit(devilFruit);
+            binding.getViewModel().setPaper(devilFruit);
         }
     }
 
@@ -121,11 +132,12 @@ public class WallPaperListAdapter extends RecyclerView.Adapter<RecyclerView.View
             this.binding = binding;
         }
 
-        public void bindItem(DevilFruit devilFruit) {
+        public void bindItem(WallPaperBean devilFruit) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new AdItemViewModel());
             }
-
+            AdRequest adRequest = new AdRequest.Builder().build();
+            binding.adView.loadAd(adRequest);
 //            binding.getViewModel().setFruit(devilFruit);
         }
     }

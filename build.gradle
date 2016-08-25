@@ -11,12 +11,17 @@ buildscript {
         // in the individual module build.gradle files
 
         classpath 'org.greenrobot:greendao-gradle-plugin:3.1.0'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+
+
+
+        maven { url "https://jitpack.io" }
     }
 }
 

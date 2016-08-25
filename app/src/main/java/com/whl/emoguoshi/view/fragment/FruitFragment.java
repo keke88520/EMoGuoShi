@@ -5,10 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telecom.TelecomManager;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
 import com.whl.emoguoshi.R;
 import com.whl.emoguoshi.databinding.FragmentFruitBinding;
 import com.whl.emoguoshi.viewmodel.FruitViewModel;
@@ -82,6 +85,8 @@ public class FruitFragment extends Fragment {
         if (parent != null) {
             parent.removeView(rootView);
         }
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
         return rootView;
     }
 
