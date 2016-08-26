@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment implements SearchViewModel.SearchVi
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        recyclerView.addItemDecoration(new MyItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),R.dimen.item_margin2));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         adapter = new FruitListAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -1,11 +1,16 @@
 package com.whl.emoguoshi.viewmodel;
 
+import android.app.WallpaperManager;
+import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.whl.emoguoshi.model.RetrofitDownload;
@@ -33,14 +38,30 @@ import rx.schedulers.Schedulers;
  * Created by wanghl on 16/8/25.
  */
 public class WallPaperDetailViewModel extends BaseViewModel {
+    private final String baseUrl;
     public ObservableField<String > imgUrl;
+    public ObservableField<String > text;
     private RetrofitDownload retrofitDownload;
     private Subscription subscription;
 
-    public WallPaperDetailViewModel() {
+    private String fileName;
+
+    private String imgPath;
+
+    private boolean fileExists = false;
+
+    private Context context;
+
+    private WallPaperDetailViewModelListener listener;
+
+    public WallPaperDetailViewModel(Context context,WallPaperDetailViewModelListener listener) {
+        this.listener = listener;
+        this.context = context;
         this.imgUrl = new ObservableField<>();
+        this.text = new ObservableField<>();
+        baseUrl = "http://img1.acgjiazu.com";
         Retrofit retrofit = new Retrofit.Builder().
-                baseUrl("http://img1.acgjiazu.com").
+                baseUrl(baseUrl).
                 client(genericClient()).
         addCallAdapterFactory(RxJavaCallAdapterFactory.create()).
                 build();
@@ -92,7 +113,11 @@ public class WallPaperDetailViewModel extends BaseViewModel {
                     // if you are not downloading file from direct link, you might be lucky to obtain file name from header
 //                    String fileName = header.replace("attachment; filename=", "");
                     // will create file in global Music directory, can be any other directory, just don't forget to handle permissions
-                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC).getAbsoluteFile(), "q.jpeg");
+                    File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"emoguoshi");
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    File file = new File(dir.getAbsolutePath(), fileName);
 
                     BufferedSink sink = Okio.buffer(Okio.sink(file));
                     // you can access body of response
@@ -109,32 +134,49 @@ public class WallPaperDetailViewModel extends BaseViewModel {
 
     }
     public void onCancelClick(View view) {
-
+        if (listener != null) {
+            listener.onCancleClick();
+        }
     }
 
 
     public void onDownloadClick(View view) {
 
-      subscription =   download("img/97068f707717e8d2a37490e615487ded.jpeg@!640-1136")
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<File>() {
-            @Override
-            public void onCompleted() {
+        if (!fileExists) {
+            String path = imgPath.substring(baseUrl.length() + 1) + "@!640-1136";
+            subscription = download(path)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<File>() {
+                        @Override
+                        public void onCompleted() {
 
-            }
+                        }
 
-            @Override
-            public void onError(Throwable e) {
-e.printStackTrace();
-            }
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
 
-            @Override
-            public void onNext(File file) {
-                Log.d("onNext", file.getAbsolutePath());
+                        @Override
+                        public void onNext(File file) {
+                            Log.d("onNext", file.getAbsolutePath());
+                            checkFile();
+                        }
+                    })
+            ;
+        } else {
+
+            WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+            Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"emoguoshi"+File.separator+fileName);
+            try {
+                wallpaperManager.setBitmap(bitmap);
+                Toast.makeText(context, "设置成功",Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(context, "设置失败",Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
-        })
-        ;
+        }
     }
 
     @Override
@@ -157,6 +199,30 @@ e.printStackTrace();
     }
 
     public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+        fileName =  imgPath.substring(baseUrl.length()+5);
         this.imgUrl.set(imgPath+"@!640-1136");
+
+        checkFile();
+
+
+    }
+
+    private void checkFile() {
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"emoguoshi");
+
+        File file = new File(dir.getAbsolutePath(), fileName);
+
+        fileExists = file.exists();
+
+        if (fileExists) {
+            text.set("设置为壁纸");
+        } else {
+            text.set("下载");
+        }
+    }
+
+    public interface WallPaperDetailViewModelListener{
+        void onCancleClick();
     }
 }

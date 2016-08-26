@@ -44,7 +44,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/selector_right"
 android:layout_weight="1"
-                android:text="下载" />
+                android:text="@{viewModel.text}" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

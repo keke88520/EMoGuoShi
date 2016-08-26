@@ -12,15 +12,17 @@ import com.whl.emoguoshi.R;
  */
 public class MyItemDecoration extends RecyclerView.ItemDecoration {
     private Context context;
+    private int r;
 
-    public MyItemDecoration(Context context) {
+    public MyItemDecoration(Context context,int r) {
+        this.r = r;
         this.context = context;
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        int offset = context.getResources().getDimensionPixelOffset(R.dimen.item_margin);
+        int offset = context.getResources().getDimensionPixelOffset(r);
         outRect.set(offset,offset,offset,offset);
     }
 

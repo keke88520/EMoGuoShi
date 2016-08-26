@@ -101,7 +101,7 @@ public class WallPaperFragment extends Fragment implements WallPaperViewModel.Wa
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        recyclerView.addItemDecoration(new MyItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),R.dimen.item_margin2));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         adapter = new WallPaperListAdapter(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
@@ -127,7 +127,7 @@ public class WallPaperFragment extends Fragment implements WallPaperViewModel.Wa
 
 
     private void setUpRecyclerView2(RefreshRecyclerView recyclerView) {
-        recyclerView.addItemDecoration(new MyItemDecoration(getContext()));
+        recyclerView.addItemDecoration(new MyItemDecoration(getContext(),R.dimen.item_margin2));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         adapter = new WallPaperListAdapter(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);

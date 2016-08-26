@@ -43,7 +43,7 @@ public class FruitListActivity extends BaseActivity implements FruitListViewMode
     }
 
     private void setUpRecyclerView(RecyclerView recyclerView) {
-        recyclerView.addItemDecoration(new MyItemDecoration(this));
+        recyclerView.addItemDecoration(new MyItemDecoration(this,R.dimen.item_margin));
 //        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST));
         adapter = new FruitListAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

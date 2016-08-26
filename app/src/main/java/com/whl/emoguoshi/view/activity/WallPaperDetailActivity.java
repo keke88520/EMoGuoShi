@@ -11,7 +11,8 @@ import com.whl.emoguoshi.viewmodel.WallPaperDetailViewModel;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class WallPaperDetailActivity extends AppCompatActivity {
+
+public class WallPaperDetailActivity extends AppCompatActivity implements WallPaperDetailViewModel.WallPaperDetailViewModelListener {
 
     private ActivityWallPaperDetailBinding binding;
     private WallPaperDetailViewModel viewModel;
@@ -22,7 +23,7 @@ public class WallPaperDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_wall_paper_detail);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_wall_paper_detail);
-        viewModel = new WallPaperDetailViewModel();
+        viewModel = new WallPaperDetailViewModel(this,this);
         binding.setViewModel(viewModel);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -42,5 +43,10 @@ public class WallPaperDetailActivity extends AppCompatActivity {
             viewModel = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onCancleClick() {
+        finish();
     }
 }
